@@ -1,70 +1,64 @@
-package main
+package models
 
-import "fmt"
+import (
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+)
 
-func main() {
-	fmt.Println("vim-go")
+var (
+	collection    mgo.Collection
+	UserIns       = new(User)
+	paramsInvalid = errors.New("bad params")
+)
+
+func init() {
+	collection = session.DB("test").C("users")
 }
 
 type User struct {
-	// the id for this user.
-	//
-	// required: true
-	ID int64 `json:"id" meddler:"user_id,pk"`
-
-	// Login is the username for this user.
-	//
-	// required: true
-	Login string `json:"login"  meddler:"user_login"`
-
-	// Token is the oauth2 token.
-	Token string `json:"-"  meddler:"user_token"`
-
-	// Secret is the oauth2 token secret.
-	Secret string `json:"-" meddler:"user_secret"`
-
-	// Expiry is the token and secret expriation timestamp.
-	Expiry int64 `json:"-" meddler:"user_expiry"`
-
-	// Email is the email address for this user.
-	//
-	// required: true
-	Email string `json:"email" meddler:"user_email"`
-
-	// the avatar url for this user.
-	Avatar string `json:"avatar_url" meddler:"user_avatar"`
-
-	// Activate indicates the user is active in the system.
-	Active bool `json:"active" meddler:"user_active"`
-
-	// Synced is the timestamp when the user was synced with the remote system.
-	Synced int64 `json:"synced" meddler:"user_synced"`
-
-	// Admin indicates the user is a system administrator.
-	//
-	// NOTE: This is sourced from the DRONE_ADMINS environment variable and is no
-	// longer persisted in the database.
-	Admin bool `json:"admin,omitempty" meddler:"-"`
-
-	// Hash is a unique token used to sign tokens.
-	Hash string `json:"-" meddler:"user_hash"`
-
-	// DEPRECATED Admin indicates the user is a system administrator.
-	XAdmin bool `json:"-" meddler:"user_admin"`
+	ID       bson.ObjectId `bson:"_id,omitempty"`
+	Phone    string
+	Name     string
+	Password string
 }
 
-func (u *User) Insert() {
-	db.insert(u)
-
+func (*User) Create(data User) error {
+	err := collection.Insert(data)
+	return err
 }
+
+func (*User) Update(selector, update map[string]interface{}) error {
+	err := collection.Update(selector, update)
+	return err
+}
+
+func (*User) ReadOne(query map[string]interface{}) (*User, error) {
+	data := new(User)
+	err := collection.Find(query).One(data)
+	return data, err
+}
+
+func (*User) ReadMany(query map[string]interface{}, offset, limit int) ([]*User, error) {
+	data := make([]*User, 0)
+	err := collection.Find(query).Skip(offset).Limit(limit).All(data)
+	return data, err
+}
+
+func (*User) Delete(selector map[string]interface{}, all bool) (int, error) {
+	if bool {
+		err := collection.Remove(selector)
+		return 1, err
+	}
+	info, err := collection.RemoveAll(selector)
+	return info.Removed, err
+}
+
 func (u *User) Validate() error {
 	switch {
 	case len(u.Phone) != 11:
-		return errUserLoginInvalid
-	case len(u.Password) > 250:
-		return errUserLoginInvalid
-	case !reUsername.MatchString(u.Login):
-		return errUserLoginInvalid
+		return paramsInvalid
+	case len(u.Password) > 20 || len(u.Password) < 6:
+		return paramsInvalid
 	default:
 		return nil
 	}
