@@ -2,12 +2,10 @@ Mode: debug
 debug:
     redis: 
         host: 192.168.0.123
-        port: 1231
+        port: 4324
     database:
         host: 192.168.0.123
-        name: xx
-        user: xxx
-        password: 123412312
+        password: 27017
 release:
     redis: 
         host: 192.168.0.123

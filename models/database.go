@@ -1,11 +1,13 @@
 package models
 
 import (
+	"log"
+
 	"gopkg.in/mgo.v2"
 )
 
 var session mgo.Session
-var DB *mog.Database
+var DB *mgo.Database
 
 func SetDB(url, database string) error {
 	session, err := mgo.Dial(url)
@@ -15,6 +17,7 @@ func SetDB(url, database string) error {
 		return err
 	}
 	DB = session.DB(database)
+	return nil
 }
 
 func GetDB() *mgo.Database {

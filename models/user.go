@@ -1,18 +1,20 @@
 package models
 
 import (
+	"errors"
+
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
 var (
-	collection    mgo.Collection
+	collection    *mgo.Collection
 	UserIns       = new(User)
 	paramsInvalid = errors.New("bad params")
 )
 
 func init() {
-	collection = session.DB("test").C("users")
+	collection = DB.C("users")
 }
 
 type User struct {
@@ -45,7 +47,7 @@ func (*User) ReadMany(query map[string]interface{}, offset, limit int) ([]*User,
 }
 
 func (*User) Delete(selector map[string]interface{}, all bool) (int, error) {
-	if bool {
+	if all {
 		err := collection.Remove(selector)
 		return 1, err
 	}
