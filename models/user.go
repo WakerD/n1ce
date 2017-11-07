@@ -3,58 +3,61 @@ package models
 import (
 	"errors"
 
+	"golang.org/x/crypto/bcrypt"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	//	"github.com/davecgh/go-spew/spew"
 )
 
 var (
-	collection    *mgo.Collection
+	userC         *mgo.Collection
 	UserIns       = new(User)
 	paramsInvalid = errors.New("bad params")
 )
 
-func init() {
-	collection = DB.C("users")
-}
-
 type User struct {
 	ID       bson.ObjectId `bson:"_id,omitempty"`
-	Phone    string
-	Name     string
-	Password string
+	Account  string        `json:"account" form:"account"`
+	Password string        `json:"password" form:"password"`
+}
+
+func (*User) Init() {
+	userC = DB.C("users")
 }
 
 func (*User) Create(data User) error {
-	err := collection.Insert(data)
+	data.HashPassword()
+	err := userC.Insert(data)
 	return err
 }
 
 func (*User) Update(selector, update map[string]interface{}) error {
-	err := collection.Update(selector, update)
+	err := userC.Update(selector, update)
 	return err
 }
 
 func (*User) ReadOne(query map[string]interface{}) (*User, error) {
 	data := new(User)
-	err := collection.Find(query).One(data)
+	err := userC.Find(query).One(data)
 	return data, err
 }
 
 func (*User) ReadMany(query map[string]interface{}, offset, limit int) ([]*User, error) {
 	data := make([]*User, 0)
-	err := collection.Find(query).Skip(offset).Limit(limit).All(data)
+	err := userC.Find(query).Skip(offset).Limit(limit).All(data)
 	return data, err
 }
 
 func (*User) Delete(selector map[string]interface{}, all bool) (int, error) {
 	if all {
-		err := collection.Remove(selector)
+		err := userC.Remove(selector)
 		return 1, err
 	}
-	info, err := collection.RemoveAll(selector)
+	info, err := userC.RemoveAll(selector)
 	return info.Removed, err
 }
 
+/*
 func (u *User) Validate() error {
 	switch {
 	case len(u.Phone) != 11:
@@ -64,4 +67,19 @@ func (u *User) Validate() error {
 	default:
 		return nil
 	}
+}*/
+func (user *User) HashPassword() error {
+	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return err
+	}
+	user.Password = string(hash)
+	return nil
+}
+
+func (user *User) VerifyPassword(password string) bool {
+	if bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password)) != nil {
+		return false
+	}
+	return true
 }

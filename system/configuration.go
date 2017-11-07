@@ -1,19 +1,23 @@
 package system
 
 import (
-	"gopkg.in/yaml.v2"
+	"fmt"
 	"io/ioutil"
+	"log"
+
+	"gopkg.in/yaml.v2"
 )
 
 func init() {
+	fmt.Println("configure init begin\n")
 	loadConfig()
 }
 
 type Configs struct {
-	Mode    string
-	Debug   Config
-	Release Config
-	Test    Config
+	Mode    string `yaml:"mode"`
+	Debug   Config `yaml:"debug"`
+	Release Config `yaml:"release"`
+	Test    Config `yaml:"test"`
 }
 
 type Config struct {
@@ -37,24 +41,25 @@ type DababaseConfig struct {
 var config *Config
 
 func loadConfig() {
-	b, err := ioutil.ReaFile("config/config.yaml")
+	configs := Configs{}
+	b, err := ioutil.ReadFile("config/config.yaml")
 	if err != nil {
-		return err
+		return
 	}
-	configs := &Configs{}
-	err := yaml.Unmarshal(b, &configs)
+	err = yaml.Unmarshal(b, &configs)
 	if err != nil {
-		log.fatalf("error: %v", err)
+		log.Fatalf("error: %v", err)
 	}
-	switch configs.Mode() {
+
+	switch configs.Mode {
 	case "debug":
-		config = &config.Debug
+		config = &configs.Debug
 	case "release":
-		config = &config.Release
+		config = &configs.Release
 	case "test":
-		config = &config.Test
+		config = &configs.Test
 	default:
-		panic(fmt.Sprintf("Unkown mode %s"), configs.Mode)
+		panic(fmt.Sprintf("Unkown mode %s", configs.Mode))
 	}
 }
 

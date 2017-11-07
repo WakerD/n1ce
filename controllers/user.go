@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+//	"net/http"
+//"n1ce/models"
+//kkk	"github.com/gin-gonic/gin"
 )
 
 type MsgResult struct {
@@ -12,30 +12,7 @@ type MsgResult struct {
 	Obj  string `json:"obj"`
 }
 
-func Signup(c *gin.Context) {
-	data := &model.User{}
-	err := c.Bind(data)
-	if err != nil {
-		c.String(http.StatusBadRequest, err.Error())
-		return
-	}
-	user := &model.User{
-		Phone:    data.Phone,
-		Password: data.Email,
-	}
-	if err = user.Validate(); err != nil {
-		c.String(http.StatusBadRequest, err.Error())
-		return
-
-	}
-	if err = store.CreateUser(c, user); err != nil {
-		c.String(http.StatusInternalServerError, err.Error())
-		return
-
-	}
-	c.JSON(http.StatusOK, user)
-}
-
+/*
 func SmsSendCode(phone string) (MsgResult, error) {
 	client := &http.Client{}
 	parama := "phone=" + phone
@@ -57,4 +34,4 @@ func SmsSendCode(phone string) (MsgResult, error) {
 	var res MsgResult
 	err := json.Unmarshal(body, &res)
 	return res, err
-}
+}*/

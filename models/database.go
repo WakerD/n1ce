@@ -17,6 +17,8 @@ func SetDB(url, database string) error {
 		return err
 	}
 	DB = session.DB(database)
+	UserIns.Init()
+	ArticleIns.Init()
 	return nil
 }
 

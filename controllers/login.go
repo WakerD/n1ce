@@ -1,29 +1,18 @@
 package controllers
 
 import (
-	"fmt"
+	"net/http"
+	"time"
 
-	"n1ce/common"
-	"n1ce/system"
+	"n1ce/cache"
+	"n1ce/models"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"gopkg.in/mgo.v2/bson"
+
+	"github.com/davecgh/go-spew/spew"
 )
-
-func Signin(c *gin.Context) {
-	account := c.PostForm("account")
-	password := c.PostForm("password")
-
-	user, err := models.UserIns.ReadOne(bson.M{"account": account})
-	if err != nil {
-		c.JSON(http.StatusForbidden, err)
-	}
-	if common.EncodeMessageMd5(password) == user.Password {
-		token, err := NewJwtToken(user.ID)
-		if err != nil {
-			c.JSON(http.StatusOK, token)
-		}
-	}
-}
 
 func Signup(c *gin.Context) {
 	user := models.User{}
@@ -31,9 +20,26 @@ func Signup(c *gin.Context) {
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 	}
-	err := models.UserIns.Create(user)
+	err = models.UserIns.Create(user)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
+	}
+}
+
+func Signin(c *gin.Context) {
+	data := models.User{}
+	err := c.Bind(&data)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	}
+	user, err := models.UserIns.ReadOne(bson.M{"account": data.Account})
+
+	if user.VerifyPassword(data.Password) {
+		token, _ := NewJwtToken(string(user.ID))
+		cache.RedisCli.Do("SET", "token", token)
+		c.JSON(http.StatusOK, gin.H{"token": token})
+	} else {
+		c.JSON(http.StatusForbidden, gin.H{"msg": "XX"})
 	}
 }
 
@@ -41,7 +47,9 @@ func NewJwtToken(userID string) (string, error) {
 	claims := make(jwt.MapClaims)
 	claims["ID"] = userID
 	claims["exp"] = time.Now().Add(time.Hour * 168) //一周有效期
+	claims["iat"] = time.Now().Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	out, err := token.SignedString([]bye("dsij#43jl3#$"))
+	spew.Printf("jwt")
+	out, err := token.SignedString([]byte("123456"))
 	return out, err
 }
