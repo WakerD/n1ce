@@ -1,13 +1,19 @@
 package controllers
 
 import (
+	"encoding/hex"
 	"fmt"
 	"net/http"
 	//	"strconv"
 
+	"n1ce/cache"
 	"n1ce/models"
 
+	"github.com/garyburd/redigo/redis"
 	"github.com/gin-gonic/gin"
+	"gopkg.in/mgo.v2/bson"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 var (
@@ -35,6 +41,14 @@ func (*Article) Create(c *gin.Context) {
 	fmt.Println("XX")
 	data := models.Article{}
 	err := c.Bind(&data)
+	spew.Printf(c.GetHeader("Authorization"))
+	userIDStr, err := redis.String(cache.RedisCli.Do("HGET", "token:"+c.GetHeader("Authorization"), "userID"))
+	fmt.Println("GG,%s\n", userIDStr)
+	userIDHex := hex.EncodeToString([]byte(userIDStr))
+	data.UserID = bson.ObjectIdHex(userIDHex)
+	if err != nil {
+		c.AbortWithError(http.StatusBadRequest, err)
+	}
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 	}

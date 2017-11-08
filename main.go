@@ -1,11 +1,13 @@
 package main
 
 import (
+	"log"
+
 	"n1ce/cache"
 	"n1ce/controllers"
 	"n1ce/models"
-
 	"n1ce/router/header"
+	"n1ce/router/token"
 	//	"n1ce/system"
 
 	"github.com/gin-gonic/gin"
@@ -13,7 +15,10 @@ import (
 
 func init() {
 	connectToDB()
-	cache.GetRedis()
+	err := cache.GetRedis()
+	if err != nil {
+		log.Fatalf("get redis failed")
+	}
 }
 
 func main() {
@@ -27,7 +32,7 @@ func main() {
 
 	article := router.Group("/article")
 	{
-		router.Use()
+		article.Use(token.VerifyToken)
 		/*		article.GET("", controllers.ArticleIns.Get)
 				article.GET("/:id", controllers.ArticleIns.GetSelf)(/)*/
 		article.POST("", controllers.ArticleIns.Create)

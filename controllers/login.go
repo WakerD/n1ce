@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"fmt"
 	"net/http"
+	"strings"
 	"time"
 
 	"n1ce/cache"
@@ -10,8 +12,6 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 func Signup(c *gin.Context) {
@@ -36,7 +36,9 @@ func Signin(c *gin.Context) {
 
 	if user.VerifyPassword(data.Password) {
 		token, _ := NewJwtToken(string(user.ID))
-		cache.RedisCli.Do("SET", "token", token)
+		cache.RedisCli.Do("HSET", "token:"+token, "userID", ObjectIdToString(user.ID))
+		fmt.Println(ObjectIdToString(user.ID))
+
 		c.JSON(http.StatusOK, gin.H{"token": token})
 	} else {
 		c.JSON(http.StatusForbidden, gin.H{"msg": "XX"})
@@ -49,7 +51,13 @@ func NewJwtToken(userID string) (string, error) {
 	claims["exp"] = time.Now().Add(time.Hour * 168) //一周有效期
 	claims["iat"] = time.Now().Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	spew.Printf("jwt")
 	out, err := token.SignedString([]byte("123456"))
 	return out, err
+}
+
+func ObjectIdToString(id bson.ObjectId) string {
+	idStr := id.String()
+	res := strings.TrimPrefix(idStr, "ObjectId(\"")
+	res = strings.TrimSuffix(res, ")\"")
+	return res
 }

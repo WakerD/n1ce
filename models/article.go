@@ -1,9 +1,9 @@
 package models
 
 import (
+	"github.com/davecgh/go-spew/spew"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
-	//	"github.com/davecgh/go-spew/spew"
 )
 
 var (
@@ -14,8 +14,8 @@ var (
 type Article struct {
 	ID      bson.ObjectId `bson:"_id,omitempty"`
 	UserID  bson.ObjectId
-	Title   string   `json:"account"`
-	Content string   `json:"password"`
+	Title   string   `json:"title"`
+	Content string   `json:"content"`
 	Pics    []string `json:"pics"`
 }
 
@@ -24,6 +24,7 @@ func (*Article) Init() {
 }
 
 func (*Article) Create(data Article) error {
+	spew.Printf("%#+v\n", data)
 	err := articleC.Insert(data)
 	return err
 }

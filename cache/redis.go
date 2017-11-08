@@ -6,10 +6,11 @@ import (
 
 var RedisCli redis.Conn
 
-func GetRedis() {
+func GetRedis() error {
 	c, err := redis.Dial("tcp", ":6379")
 	if err != nil {
-		c.Close()
+		return err
 	}
 	RedisCli = c
+	return nil
 }
