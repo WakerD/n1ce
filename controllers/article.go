@@ -1,7 +1,7 @@
 package controllers
 
 import (
-	"encoding/hex"
+	//	"encoding/hex"
 	"fmt"
 	"net/http"
 	//	"strconv"
@@ -42,13 +42,8 @@ func (*Article) Create(c *gin.Context) {
 	data := models.Article{}
 	err := c.Bind(&data)
 	spew.Printf(c.GetHeader("Authorization"))
-	userIDStr, err := redis.String(cache.RedisCli.Do("HGET", "token:"+c.GetHeader("Authorization"), "userID"))
-	fmt.Println("GG,%s\n", userIDStr)
-	userIDHex := hex.EncodeToString([]byte(userIDStr))
-	data.UserID = bson.ObjectIdHex(userIDHex)
-	if err != nil {
-		c.AbortWithError(http.StatusBadRequest, err)
-	}
+	userID, err := redis.String(cache.RedisCli.Do("HGET", "token:"+c.GetHeader("Authorization"), "userID"))
+	data.UserID = bson.ObjectIdHex(userID)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 	}

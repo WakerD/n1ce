@@ -1,9 +1,7 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
-	"strings"
 	"time"
 
 	"n1ce/cache"
@@ -36,9 +34,7 @@ func Signin(c *gin.Context) {
 
 	if user.VerifyPassword(data.Password) {
 		token, _ := NewJwtToken(string(user.ID))
-		cache.RedisCli.Do("HSET", "token:"+token, "userID", ObjectIdToString(user.ID))
-		fmt.Println(ObjectIdToString(user.ID))
-
+		cache.RedisCli.Do("HSET", "token:"+token, "userID", user.ID.Hex())
 		c.JSON(http.StatusOK, gin.H{"token": token})
 	} else {
 		c.JSON(http.StatusForbidden, gin.H{"msg": "XX"})
@@ -55,9 +51,10 @@ func NewJwtToken(userID string) (string, error) {
 	return out, err
 }
 
+/*
 func ObjectIdToString(id bson.ObjectId) string {
 	idStr := id.String()
 	res := strings.TrimPrefix(idStr, "ObjectId(\"")
 	res = strings.TrimSuffix(res, ")\"")
 	return res
-}
+}*/
