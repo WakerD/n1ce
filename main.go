@@ -1,9 +1,8 @@
 package main
 
 import (
-	"log"
-
 	"n1ce/cache"
+	"n1ce/common/lg"
 	"n1ce/controllers"
 	"n1ce/models"
 	"n1ce/router/header"
@@ -14,10 +13,11 @@ import (
 )
 
 func init() {
+	lg.Log.Infof(" Start ...")
 	connectToDB()
 	err := cache.GetRedis()
 	if err != nil {
-		log.Fatalf("get redis failed")
+		lg.Log.Fatalf("get redis failed")
 	}
 }
 

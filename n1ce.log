@@ -1,0 +1,5 @@
+time="2017-11-08T04:24:52-08:00" level=fatal msg="get redis failed"
+time="2017-11-08T04:26:00-08:00" level=fatal msg="get redis failed"
+time="2017-11-08T04:26:03-08:00" level=fatal msg="get redis failed"
+time="2017-11-08T04:26:55-08:00" level=info msg=" Start ..."
+time="2017-11-08T04:26:55-08:00" level=fatal msg="get redis failed"
