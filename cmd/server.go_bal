@@ -1,0 +1,12 @@
+package main
+
+import "fmt"
+
+func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
+
+        s := options.NewServerRunOptions()
+        s.AddFlags(pflag.CommandLine)
+        logs.InitLogs()
+        defer logsgs.FlushLogs()
+}

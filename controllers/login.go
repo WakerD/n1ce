@@ -10,6 +10,7 @@ import (
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	//	"github.com/davecgh/go-spew/spew"
 )
 
 func Signup(c *gin.Context) {

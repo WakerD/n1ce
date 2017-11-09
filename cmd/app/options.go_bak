@@ -1,0 +1,14 @@
+type ServerRunOptions struct {
+
+}
+
+func NewServerRunOptions() *ServerRunOptions {
+s:= ServerRunOptions {
+
+  }
+}
+
+func (s *ServerRunOptions) AddFlags(fs *pflag.FlagSet) {
+   
+    fs.BoolBar(&s.AllowPriile, "allow-psadas", s.AllowPriile, "fsafasf")
+}

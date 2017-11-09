@@ -36,6 +36,11 @@ func main() {
 		/*		article.GET("", controllers.ArticleIns.Get)
 				article.GET("/:id", controllers.ArticleIns.GetSelf)(/)*/
 		article.POST("", controllers.ArticleIns.Create)
+		article.GET("", controllers.ArticleIns.ReadMany)
+		article.DELETE("", controllers.ArticleIns.DeleteMany)
+		article.PUT("/:id", controllers.ArticleIns.Update)
+		article.GET("/:id", controllers.ArticleIns.ReadOne)
+		article.DELETE("/:id", controllers.ArticleIns.DeleteOne)
 	}
 	router.Run(":3737")
 }

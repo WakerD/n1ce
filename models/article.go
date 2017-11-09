@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/davecgh/go-spew/spew"
+	//	"github.com/davecgh/go-spew/spew"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -24,29 +24,28 @@ func (*Article) Init() {
 }
 
 func (*Article) Create(data Article) error {
-	spew.Printf("%#+v\n", data)
 	err := articleC.Insert(data)
 	return err
 }
 
-func (*Article) Update(selector, update map[string]interface{}) error {
+func (*Article) Update(selector, update interface{}) error {
 	err := articleC.Update(selector, update)
 	return err
 }
 
-func (*Article) ReadOne(query map[string]interface{}) (*Article, error) {
+func (*Article) ReadOne(selector interface{}) (*Article, error) {
 	data := new(Article)
-	err := articleC.Find(query).One(data)
+	err := articleC.Find(selector).One(data)
 	return data, err
 }
 
-func (*Article) ReadMany(query map[string]interface{}, offset, limit int) ([]*Article, error) {
+func (*Article) ReadMany(query interface{}, offset, limit int) ([]*Article, error) {
 	data := make([]*Article, 0)
-	err := articleC.Find(query).Skip(offset).Limit(limit).All(data)
+	err := articleC.Find(query).Skip(offset).Limit(limit).All(&data)
 	return data, err
 }
 
-func (*Article) Delete(selector map[string]interface{}, all bool) (int, error) {
+func (*Article) Delete(selector interface{}, all bool) (int, error) {
 	if all {
 		err := articleC.Remove(selector)
 		return 1, err
@@ -54,3 +53,11 @@ func (*Article) Delete(selector map[string]interface{}, all bool) (int, error) {
 	info, err := articleC.RemoveAll(selector)
 	return info.Removed, err
 }
+
+/*
+func (a Article) Valid() bool {
+	if a.ID != nil || a.UserID != nil {
+		return false
+	}
+	return true
+}*/
