@@ -22,6 +22,19 @@ func init() {
 }
 
 func main() {
+	rand.Seed(time.Now().UTC().UnixNano())
+
+	s := options.NewServerRunOptions()
+	s.AddFlags(pflag.CommandLine)
+
+	flag.InitFlags()
+
+	stopCh := server.SetupSignalHandler()
+	if err := app.Run(s, stopCh); err != nil {
+		fmt.Fprintf(os.Stderr, "%v\n", err)
+		os.Exit(1)
+	}
+
 	router := gin.Default()
 	router.Use(header.NoCache)
 	router.Use(header.Options)
