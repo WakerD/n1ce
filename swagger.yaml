@@ -81,6 +81,112 @@ paths:
       responses:
         '200':
           description: sucess
+    get:
+      tags:
+        - article
+      summary: 读取文章列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+        - in: query
+          name: offset
+          type: integer
+          required: true
+        - in: query
+          name: limit
+          type: integer
+          required: true
+      responses:
+        '200':
+          description: sucess
+    delete:
+      tags:
+        - article
+      summary: 删除文章列表
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+      responses:
+        '200':
+          description: sucess
+  '/article/{id}':
+    put:
+      tags:
+        - article
+      summary: 更新文章
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+        - in: body
+          name: data
+          required: true
+          schema:
+            $ref: '#/definitions/Article'
+      responses:
+        '200':
+          description: sucess
+    get:
+      tags:
+        - article
+      summary: 读取文章
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+      responses:
+        '200':
+          description: sucess
+    delete:
+      tags:
+        - article
+      summary: 删除文章
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+          required: true
+        - in: header
+          name: Authorization
+          type: string
+          required: true
+      responses:
+        '200':
+          description: sucess
 definitions:
   User:
     type: object

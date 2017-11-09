@@ -2,11 +2,11 @@ package main
 
 import (
 	"n1ce/cache"
-	"n1ce/common/lg"
 	"n1ce/controllers"
 	"n1ce/models"
 	"n1ce/router/header"
 	"n1ce/router/token"
+	"n1ce/util/lg"
 	//	"n1ce/system"
 
 	"github.com/gin-gonic/gin"
