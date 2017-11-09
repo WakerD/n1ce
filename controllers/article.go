@@ -7,9 +7,9 @@ import (
 
 	"n1ce/cache"
 	"n1ce/models"
+	"n1ce/util/token"
 
 	"github.com/davecgh/go-spew/spew"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/garyburd/redigo/redis"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
@@ -40,15 +40,15 @@ func (*Article) Create(c *gin.Context) {
 	data := models.Article{}
 	err := c.Bind(&data)
 	//	userID, err := redis.String(cache.RedisCli.Do("HGET", "token:"+c.GetHeader("Authorization"), "userID"))
-	token, _ := jwt.Parse(c.GetHeader("Authorization"), nil)
-	spew.Printf("%#+v\n", token)
-	info := token.Claims.(jwt.MapClaims)
-	id, ok := info["sub"]
-	if !ok {
-		c.AbortWithError(http.StatusBadRequest, err)
+	auth := c.GetHeader("Authorization")
+	if len(auth) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "no token"})
 	}
-	spew.Printf(id.(string))
-	data.UserID = bson.ObjectIdHex(id.(string))
+	id, err := token.GetIDFromToken(auth)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "no token"})
+	}
+	data.UserID = bson.ObjectIdHex(id)
 	//spew.Printf("%#+v\n", data.UserID)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)

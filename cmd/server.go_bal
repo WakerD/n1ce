@@ -1,12 +1,16 @@
 package main
 
-import "fmt"
+import (
+        "n1ce/util/flags"
+       )
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 
         s := options.NewServerRunOptions()
         s.AddFlags(pflag.CommandLine)
-        logs.InitLogs()
+
+        flag.InitFlags()
+        
         defer logsgs.FlushLogs()
 }

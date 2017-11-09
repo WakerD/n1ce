@@ -6,7 +6,7 @@ import (
 	"n1ce/models"
 	"n1ce/router/header"
 	"n1ce/router/token"
-	"n1ce/util/lg"
+	"n1ce/util/logs"
 	//	"n1ce/system"
 
 	"github.com/gin-gonic/gin"

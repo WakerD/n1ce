@@ -1,15 +1,13 @@
 package controllers
 
 import (
-	"fmt"
 	"net/http"
-	"time"
 
 	//	"n1ce/cache"
 	"n1ce/models"
+	"n1ce/util/token"
 
-	"github.com/davecgh/go-spew/spew"
-	"github.com/dgrijalva/jwt-go"
+	//	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
 )
@@ -35,25 +33,12 @@ func Signin(c *gin.Context) {
 	user, err := models.UserIns.ReadOne(bson.M{"account": data.Account})
 
 	if user.VerifyPassword(data.Password) {
-		token, _ := NewJwtToken(user.ID.Hex())
+		token, _ := token.NewJwtToken(user.ID.Hex())
 		//		cache.RedisCli.Do("HSET", "token:"+token, "userID", user.ID.Hex())
 		c.JSON(http.StatusOK, gin.H{"token": token})
 	} else {
-		c.JSON(http.StatusForbidden, gin.H{"msg": "XX"})
+		c.JSON(http.StatusForbidden, gin.H{"msg": "wrong"})
 	}
-}
-
-func NewJwtToken(userID string) (string, error) {
-	claims := make(jwt.MapClaims)
-	claims["sub"] = userID
-	claims["exp"] = time.Now().Add(time.Hour * 168) //一周有效期
-	claims["iat"] = time.Now().Unix()
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	out, err := token.SignedString([]byte("123456"))
-	xx, _ := jwt.Parse(out, nil)
-	spew.Printf("%#+v\n", xx)
-	fmt.Println(xx.Claims)
-	return out, err
 }
 
 /*
