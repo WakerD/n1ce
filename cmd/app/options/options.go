@@ -1,7 +1,13 @@
 package options
 
 import (
+	"errors"
+	"io/ioutil"
+	"log"
+
 	"github.com/gin-gonic/gin"
+	"github.com/spf13/pflag"
+	"gopkg.in/yaml.v2"
 )
 
 type ServerRunOptions struct {
@@ -32,11 +38,12 @@ type redisConfig struct {
 }
 
 func NewServerRunOptions() *ServerRunOptions {
-	configs := loadConfig()
-	s := ServerRunOptions{
+	configs, _ := loadConfig()
+	s := &ServerRunOptions{
 		Mongodb: configs.Mongo,
 		Redis:   configs.Redis,
 	}
+	return s
 }
 
 func (s *ServerRunOptions) AddFlags(fs *pflag.FlagSet) {
@@ -44,25 +51,26 @@ func (s *ServerRunOptions) AddFlags(fs *pflag.FlagSet) {
 		"If non-empty, use secure SSH proxy to the nodes, using this user keyfile")
 }
 
-func loadConfig() config {
+func loadConfig() (*config, error) {
 	configs := configs{}
 	b, err := ioutil.ReadFile("config/config.yaml")
 	if err != nil {
-		return nil
+		return nil, errors.New("no config file")
 	}
 	err = yaml.Unmarshal(b, &configs)
 	if err != nil {
 		log.Fatalf("error: %v", err)
 	}
-	switch gin.Mode {
+	var cfg config
+	switch gin.Mode() {
 	case "debug":
-		config := configs.Debug
+		cfg = configs.Debug
 	case "release":
-		config := configs.Release
+		cfg = configs.Release
 	case "test":
-		config := configs.Test
+		cfg = configs.Test
 	default:
 		log.Panic("Unkown mode")
 	}
-	return config
+	return &cfg, nil
 }

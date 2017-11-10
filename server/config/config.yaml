@@ -1,0 +1,24 @@
+debug:
+    database:
+        host: 192.168.0.123
+        port: 6467
+        username: 421412
+        password: 27017
+    redis: 
+        port: 4324
+release:
+    database:
+        host: 192.168.0.123
+        port: 6467
+        username: 421412
+        password: 27017
+    redis: 
+        port: 4324
+test:
+    database:
+        host: 192.168.0.123
+        port: 6467
+        username: 421412
+        password: 27017
+    redis: 
+        port: 4324

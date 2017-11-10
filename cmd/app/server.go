@@ -1,19 +1,43 @@
-package main
+package app
 
-import "fmt"
+import (
+	"fmt"
+	"net/http"
 
-func main() {
-	fmt.Println("vim-go")
+	"github.com/spf13/cobra"
+
+	"n1ce/server/models"
+	"n1ce/server/router"
+)
+
+func init() {
+	RootCmd.AddCommand(startCmd)
 }
-func Run(runOptions *options.ServerRunOptions, stopCh <-chan struct{}) error {
-	// To help debugging, immediately log version
-	glog.Infof("Version: %+v", version.Get())
 
-	server, err := CreateServerChain(runOptions, stopCh)
-	if err != nil {
-		return err
-
+var (
+	RootCmd = &cobra.Command{
+		Use:   "n1ce",
+		Short: "a basic http server",
+		Long:  `a project for play, u can join me`,
 	}
-	return server.PrepareRun().Run(stopCh)
+	startCmd = &cobra.Command{
+		Use:   "start",
+		Short: "start server on port",
+		Long:  `the project will runing`,
+		Run: func(cmd *cobra.Command, args []string) {
+			fmt.Println("server start ...")
+			models.ConnectMongodb("localhost", "test")
+			models.ConnectRedis()
+			if len(args) == 0 {
+				http.ListenAndServe(":3737", router.Load())
+			} else {
+				http.ListenAndServe(":"+args[0], router.Load())
+			}
+		},
+	}
+)
 
+func Run() error {
+	err := RootCmd.Execute()
+	return err
 }
