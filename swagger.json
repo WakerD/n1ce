@@ -1,0 +1,1496 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "医图APP",
+    "version": "1.0.0",
+    "title": "后台信息维护",
+    "contact": {
+      "email": "732528169@qq.com"
+    }
+  },
+  "host": "api.lotusdata.com",
+  "basePath": "/operations/v1",
+  "tags": [
+    {
+      "name": "hospital"
+    },
+    {
+      "name": "department"
+    },
+    {
+      "name": "iprelation"
+    },
+    {
+      "name": "major"
+    },
+    {
+      "name": "school"
+    },
+    {
+      "name": "ipmanage"
+    },
+    {
+      "name": "studioModule"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/hospital": {
+      "post": {
+        "tags": [
+          "hospital"
+        ],
+        "summary": "新增医院",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true,
+            "description": "JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTIxNzkzMDIsInVzZXJuYW1lIjoiMTczODcyMTYzNTc1MjkwNTAwMjgifQ.IywO1exRj8frzw-LzH-kgbzWihWZI1VWouXDbqRha00"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "hospital"
+        ],
+        "summary": "得到医院信息列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/hospital/count": {
+      "get": {
+        "tags": [
+          "hospital"
+        ],
+        "summary": "得到医院信息总数",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/hospital/{id}": {
+      "get": {
+        "tags": [
+          "hospital"
+        ],
+        "summary": "得到医院信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "hospital"
+        ],
+        "summary": "修改医院信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Hospital"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "hospital"
+        ],
+        "summary": "删除医院",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/department": {
+      "post": {
+        "tags": [
+          "department"
+        ],
+        "summary": "新增部门",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Department"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "department"
+        ],
+        "summary": "得到部门信息列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/department/count": {
+      "get": {
+        "tags": [
+          "department"
+        ],
+        "summary": "得到部门信息总数",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/department/{id}": {
+      "get": {
+        "tags": [
+          "department"
+        ],
+        "summary": "得到部门信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "department"
+        ],
+        "summary": "修改部门信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Department"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "department"
+        ],
+        "summary": "删除部门",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/iprelation": {
+      "post": {
+        "tags": [
+          "iprelation"
+        ],
+        "summary": "新增IP关系",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IPRelationList"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "iprelation"
+        ],
+        "summary": "得到IP关系列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/iprelation/{mid}": {
+      "get": {
+        "tags": [
+          "iprelation"
+        ],
+        "summary": "根据主ID获得关系列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "iprelation"
+        ],
+        "summary": "根据主ID删除关系列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/iprelation/{mid}/{cid}": {
+      "put": {
+        "tags": [
+          "iprelation"
+        ],
+        "summary": "修改IP关系",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "cid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IPRelation"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "iprelation"
+        ],
+        "summary": "删除IP关系",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "cid",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/major": {
+      "post": {
+        "tags": [
+          "major"
+        ],
+        "summary": "新增专业",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Major"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "major"
+        ],
+        "summary": "得到专业列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/major/count": {
+      "get": {
+        "tags": [
+          "major"
+        ],
+        "summary": "得到专业信息总数",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/major/{id}": {
+      "get": {
+        "tags": [
+          "major"
+        ],
+        "summary": "得到专业信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "major"
+        ],
+        "summary": "修改专业",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Major"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "major"
+        ],
+        "summary": "删除专业",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/school": {
+      "post": {
+        "tags": [
+          "school"
+        ],
+        "summary": "新增学校",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "school"
+        ],
+        "summary": "得到学校列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/school/count": {
+      "get": {
+        "tags": [
+          "school"
+        ],
+        "summary": "得到学校信息总数",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/school/{id}": {
+      "get": {
+        "tags": [
+          "school"
+        ],
+        "summary": "得到学校信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "school"
+        ],
+        "summary": "修改学校信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/School"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "school"
+        ],
+        "summary": "删除学校",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/ipmanage/dict/{name}": {
+      "get": {
+        "tags": [
+          "ipmanage"
+        ],
+        "summary": "获取ip字典",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/studio-module": {
+      "post": {
+        "tags": [
+          "studioModule"
+        ],
+        "summary": "新增模块",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StudioModule"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "studioModule"
+        ],
+        "summary": "获取模块列表",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "key",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    },
+    "/studio-module/{id}": {
+      "put": {
+        "tags": [
+          "studioModule"
+        ],
+        "summary": "更新模块信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "data",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/StudioModule"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "studioModule"
+        ],
+        "summary": "获取模块信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "studioModule"
+        ],
+        "summary": "删除模块信息",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "sucess"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Hospital": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "aliasName": {
+          "type": "string"
+        },
+        "province": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "county": {
+          "type": "string"
+        },
+        "address": {
+          "type": "string"
+        },
+        "linkPhone": {
+          "type": "string"
+        },
+        "hospitalUrl": {
+          "type": "string"
+        },
+        "logo": {
+          "type": "string"
+        },
+        "summary": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        }
+      }
+    },
+    "Department": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "pid": {
+          "type": "integer"
+        }
+      }
+    },
+    "IPRelationList": {
+      "type": "array",
+      "items": {
+        "$ref": "#definitions/IPRelation"
+      }
+    },
+    "IPRelation": {
+      "type": "object",
+      "properties": {
+        "mipID": {
+          "type": "string"
+        },
+        "cipID": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer"
+        }
+      }
+    },
+    "Major": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "pID": {
+          "type": "string"
+        },
+        "level": {
+          "type": "string"
+        }
+      }
+    },
+    "School": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "StudioModule": {
+      "type": "object",
+      "properties": {
+        "ipID": {
+          "type": "string"
+        },
+        "moduleName": {
+          "type": "string"
+        },
+        "sort": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
